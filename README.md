@@ -1,9 +1,8 @@
 # React Global Training
 
-## Each branch belongs to a specific task
-
-## Instructions
-* Clone the repo
-* Run `npm install`
-* Run `npm run build` (development)
-* Run `npm start` (production)
+## Task 1: Core concepts
+### Create components in different ways, using:
+1. React.CreateElement
+2. React.Component
+3. React.PureComponent
+4. Functional component
