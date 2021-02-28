@@ -1,0 +1,194 @@
+@import 'reset.css';
+
+$width_app: 1200px;
+$color1: #f65261;
+$color2: #424242;
+$color3: #232323;
+$color4: #555555;
+$color5: #ffffff;
+
+body {
+    background: #555555;
+    color: #d4d4d4;
+    font-size: 18px;
+}
+
+#app {
+    width: $width_app;
+    margin: 0 auto;
+    position: relative;
+
+    .header {
+        width: 100%;
+        height: 395px;
+        background: $color2;
+        margin: 53px 0 10px 0;
+
+        background-image: url('./img/background_header.png');
+        background-position: bottom;
+        background-repeat: no-repeat;
+        background-size: cover;
+
+        .blur {
+            background: rgb(0 0 0 / 65%);
+            backdrop-filter: blur(4px);
+            height: 395px;
+            width: 100%;
+        }
+        
+        .top {
+            display: flex;
+        
+            .logo {
+                padding: 30px 0 0 60px;
+            }
+            & > .btn {
+                margin: 20px 50px 0 0;
+                position: absolute;
+                right: 0;
+                color: $color1;
+            }
+        }
+        
+        .search {
+            width: 82.33%;
+            margin: 55px auto 0 auto;
+
+            &>.title {
+                font-size: 50px;
+                padding: 3px;
+            }
+            &>.wrap {
+                display: flex;
+                margin-top: 30px;
+
+                input {
+                    width: 710px;
+                    height: 50px;
+                    margin: 5px;
+                    padding-left: 10px;
+                    background-color: $color3;
+                    color: $color4;
+                    border: 0;
+                    box-shadow: 0 0 8px 3px $color3;
+                }
+            }
+        }
+    }
+
+    .logo {
+        color: $color1;
+        font-size: 24px;
+        font-family: 'Roboto', sans-serif;
+        font-weight: 900;
+
+        span {
+            font-weight: 100;
+        }
+    }
+
+    .main {
+        min-height: 700px;
+        background:  $color3;
+        padding: 2px 15px;
+
+        .category {
+            display: flex;
+            width: 100%;
+            height: 50px;
+            border-bottom: 1px solid red;
+
+            ul {
+                flex-basis: 70%;
+                li {
+                    display: inline-block;
+                    margin-right: 5px;
+                    padding: 10px;
+                }
+            }
+
+            .filter {
+                flex-basis: 30%;
+                padding: 10px;
+                color: #8d8c8c;
+
+                select {
+                    margin-left: 15px;
+                    border: 1px solid $color3;
+                    background-color: $color3;
+                    color: #d4d4d4;
+                }
+            }
+        }
+
+        .movies-list {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+
+            .movie-card {
+                flex-basis: 320px;
+                text-align: center;
+                margin: 5px 25px 10px;
+
+                &>.title-year {
+                    margin-top: 15px;
+                    display: flex;
+
+                    &>.title {
+                        text-align: start;
+                        flex-basis: 87%;
+                        line-height: 2;
+                    }
+                    &>.year {
+                        text-align: center;
+                        flex-basis: 13%;
+                        padding: 8px;
+                        border: 1px solid #8d8c8c;
+                    }
+                    
+                }
+                &>.genres {
+                    text-align: start;
+                    color: #8d8c8c;
+                }
+            }
+        }
+    }
+    .footer {
+        width: 100%;
+        height: 60px;
+        background: $color2;
+
+        .logo {
+            height: 100%;
+            margin: 0 auto;
+            width: fit-content;
+            line-height: 2;
+        }
+    }
+
+    .btn {
+        width: 176px;
+        height: 46px;
+        font-size: 22px;
+        background: #55555593;
+        line-height: 2;
+        text-align: center;
+        color: $color5;
+        cursor: pointer;
+        border-radius: 5px;
+
+        &:hover {
+            background: $color4;
+        }
+
+        &.search {
+            width: 230px;
+            height: 55px;
+            line-height: 2.5    ;
+            margin: 5px;
+            background-color: $color1;
+        }
+    }
+}
