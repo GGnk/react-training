@@ -1,11 +1,11 @@
 import React from "react";
+import Logo from '../components/blocks/Logo'
 
-
-const Footer: React.FC = ({ children }) => {
+const Footer: React.FC = () => {
 
     return (
         <footer className='footer'>
-            {children}
+            <Logo />
         </footer>
     );
 }

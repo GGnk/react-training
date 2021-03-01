@@ -172,7 +172,7 @@ body {
         width: 176px;
         height: 46px;
         font-size: 22px;
-        background: #55555593;
+        background: rgba(85, 85, 85, 0.576);
         line-height: 2;
         text-align: center;
         color: $color5;
@@ -186,7 +186,7 @@ body {
         &.search {
             width: 230px;
             height: 55px;
-            line-height: 2.5    ;
+            line-height: 2.5;
             margin: 5px;
             background-color: $color1;
         }
