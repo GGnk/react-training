@@ -1,11 +1,7 @@
 @import 'reset.css';
-
-$width_app: 1200px;
-$color1: #f65261;
-$color2: #424242;
-$color3: #232323;
-$color4: #555555;
-$color5: #ffffff;
+@import "variables";
+@import "button";
+@import "modal";
 
 body {
     background: #555555;
@@ -24,7 +20,7 @@ body {
         background: $color2;
         margin: 53px 0 10px 0;
 
-        background-image: url('./img/background_header.png');
+        background-image: url('../img/background_header.png');
         background-position: bottom;
         background-repeat: no-repeat;
         background-size: cover;
@@ -116,7 +112,7 @@ body {
                     margin-left: 15px;
                     border: 1px solid $color3;
                     background-color: $color3;
-                    color: #d4d4d4;
+                    color: $text-in;
                 }
             }
         }
@@ -130,6 +126,7 @@ body {
                 flex-basis: 320px;
                 text-align: center;
                 margin: 5px 25px 10px;
+                position: relative;
 
                 &>.title-year {
                     margin-top: 15px;
@@ -152,6 +149,10 @@ body {
                     text-align: start;
                     color: #8d8c8c;
                 }
+                &:hover >.edit {
+                    opacity: 1;
+                }
+
             }
         }
     }
@@ -168,27 +169,4 @@ body {
         }
     }
 
-    .btn {
-        width: 176px;
-        height: 46px;
-        font-size: 22px;
-        background: rgba(85, 85, 85, 0.576);
-        line-height: 2;
-        text-align: center;
-        color: $color5;
-        cursor: pointer;
-        border-radius: 5px;
-
-        &:hover {
-            background: $color4;
-        }
-
-        &.search {
-            width: 230px;
-            height: 55px;
-            line-height: 2.5;
-            margin: 5px;
-            background-color: $color1;
-        }
-    }
 }

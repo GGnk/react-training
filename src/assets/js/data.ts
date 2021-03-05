@@ -1,4 +1,4 @@
-[
+export const movies = [
     {
         "id": "1",
         "title": "Game Night",
@@ -456,55 +456,6 @@
     },
     {
         "id": "10",
-        "title": "Foxtrot",
-        "year": "2017",
-        "genres": [
-            "Drama"
-        ],
-        "ratings": [
-            9,
-            6,
-            5,
-            8,
-            3,
-            9,
-            10,
-            2,
-            8,
-            1,
-            9,
-            4,
-            1,
-            3,
-            2,
-            9,
-            2,
-            4,
-            2,
-            7,
-            3,
-            2,
-            1,
-            10,
-            6,
-            6,
-            1,
-            3,
-            10,
-            9
-        ],
-        "contentRating": "R",
-        "releaseDate": "2017-09-21",
-        "storyline": "A troubled family face the facts when something goes terribly wrong at their son's desolate military post.",
-        "actors": [
-            "Lior Ashkenazi",
-            "Sarah Adler",
-            "Yonaton Shiray"
-        ],
-        "posterurl": "https://images-na.ssl-images-amazon.com/images/M/MV5BOGUyZTJhZWEtNGIwZi00YjUwLTljMGMtNjliMzM1NDMxYjJmXkEyXkFqcGdeQXVyMTMxODk2OTU@._V1_SY500_CR0,0,353,500_AL_.jpg"
-    },
-    {
-        "id": "11",
         "title": "They Remain",
         "year": "2018",
         "genres": [
@@ -552,7 +503,7 @@
         "posterurl": "https://images-na.ssl-images-amazon.com/images/M/MV5BMjI0NTEzMTk1OV5BMl5BanBnXkFtZTgwNTMwNDY3NDM@._V1_SY500_CR0,0,349,500_AL_.jpg"
     },
     {
-        "id": "12",
+        "id": "11",
         "title": "Submission",
         "year": "2017",
         "genres": [

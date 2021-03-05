@@ -1,15 +1,13 @@
 import React, { useState } from "react";
-import data from '../assets/js/data.json'
+import { movies } from '../assets/js/data'
 import { MoviesList, Movie } from '../assets/js/types'
 
 import MovieCard from './blocks/MovieCard'
 
 const MoviesList: React.FC = () => {
-    const [films, setFilms] = useState<MoviesList>(data)
+    const [films, setFilms] = useState<MoviesList>(movies)
 
-    const first_6 = films.splice(0, 6);
-
-    const list = first_6.map((film: Movie) => {
+    const list = films.slice(0, 6).map((film: Movie) => {
         return <MovieCard key={film.id} {...film} />
     })
 
