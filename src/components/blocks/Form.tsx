@@ -12,14 +12,10 @@ const Form: React.FC<Form> = ({ film, setShowModal }) => {
     const [movie, setMovie] = useState<Movie>({...film})
 
     const handleGenres = (event: { target: { options: HTMLOptionsCollection } }) => {
-        let options = event.target.options;
-        let selectedOptions = [] as string[];
-
-        for(let i = 0; i < options.length; i++) {
-            if( options[i].selected ) {
-                selectedOptions.push(options[i].value);
-            }
-        }
+        let options = [...event.target.options];
+        const selectedOptions = options.filter(option => option.selected)
+                                        .map((item: { value: string }) => item.value)
+        
         setMovie({...movie, genres: selectedOptions })
     }  
 

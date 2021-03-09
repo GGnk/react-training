@@ -8,7 +8,7 @@ const Modal = (props: any) => {
     useEffect(():any => {
         modal.appendChild(el);
         return () => modal.removeChild(el);
-    });
+    }, []);
 
     return createPortal(
         props.children,

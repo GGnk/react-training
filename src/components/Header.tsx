@@ -15,7 +15,7 @@ const Header: React.FC = () => {
 
     const modal = showModal 
                         && (
-                        <Suspense fallback={<div>Загрузка...</div>}>
+                        <Suspense fallback={<div>Loading...</div>}>
                             <Form film={movieEmpty} setShowModal={setShowModal} />
                         </Suspense>)
 
