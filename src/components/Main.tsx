@@ -15,8 +15,8 @@ const Main: React.FC = () => {
     
     const listCategory = category.map((cat: string) => <li key={cat}>{cat}</li>)
 
-    const listFilters = filters.map((filter: string, i) => {
-        return <option key={i} value={filter}>{filter.toUpperCase()}</option>
+    const listFilters = filters.map((filter: string) => {
+        return <option key={filter} value={filter}>{filter.toUpperCase()}</option>
     })
     
     const handleSelect = ({ target }) => {
