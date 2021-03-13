@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { Dispatch, SetStateAction, useState } from "react";
+import { Movie } from "../assets/js/types";
 import MoviesErrorBoundary from "./MoviesErrorBoundary";
 import MoviesList from './MoviesList'
 
@@ -10,7 +11,11 @@ const filters = [
     'release date', 'best rating'
 ]
 
-const Main: React.FC = () => {
+type Props = {
+    setMovie: Dispatch<SetStateAction<Movie | null>>;
+}
+
+const Main: React.FC<Props> = ({ setMovie }) => {
     const [select, setSelect] = useState('release date')
     
     const listCategory = category.map((cat: string) => <li key={cat}>{cat}</li>)
@@ -37,7 +42,7 @@ const Main: React.FC = () => {
                 </div>
             </div>
             <MoviesErrorBoundary>
-                <MoviesList />
+                <MoviesList setMovie={ setMovie }/>
             </MoviesErrorBoundary>
         </main>
     );
