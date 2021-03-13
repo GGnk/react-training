@@ -1,17 +1,22 @@
-import React, { useState, Suspense }  from "react";
+import React, { useState, Suspense, Dispatch, SetStateAction }  from "react";
 import Modal from "./Modal"
 import { Movie } from '../../assets/js/types';
 const Form = React.lazy(() => import('./Form'));
 const ModalDelete = React.lazy(() => import('./ModalDelete'));
 
-const MovieCard: React.FC<Movie> = (props) => {
+type Props = {
+    film: Movie,
+    setMovieDetails: Dispatch<SetStateAction<Movie | null>>;
+}
+
+const MovieCard: React.FC<Props> = ({ film, setMovieDetails }) => {
     const [showModal, setShowModal] = useState(false);
     const [deleteModal, setDeleteShowModal] = useState(false);
 
     const modal = showModal && (
                                 <Suspense fallback={<div>Загрузка...</div>}>
                                     <Modal>
-                                        <Form film={props} setShowModal={setShowModal} />
+                                        <Form film={film} setShowModal={setShowModal} />
                                     </Modal>
                                 </Suspense>
                             )
@@ -33,12 +38,18 @@ const MovieCard: React.FC<Movie> = (props) => {
                     <li onClick={() => setDeleteShowModal(true)}>Delete</li>
                 </ul>
             </div>
-            <img src={props.posterurl} alt={props.title} width='320' height='450' />
+            <img 
+                src={film.posterurl} 
+                alt={film.title} 
+                width='320' 
+                height='450' 
+                onClick={() => setMovieDetails(film)}
+            />
             <div className='title-year'>
-                <span className='title'>{ props.title }</span>
-                <span className='year'>{ props.year }</span>
+                <span className='title'>{ film.title }</span>
+                <span className='year'>{ film.year }</span>
             </div>
-            <div className='genres'>{ props.genres.join(' & ') }</div>
+            <div className='genres'>{ film.genres.join(' & ') }</div>
             {modal}
             {deleteModalElement}
         </div>

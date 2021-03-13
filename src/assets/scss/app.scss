@@ -70,6 +70,42 @@ body {
                 }
             }
         }
+        .movie-details {
+            .blur {
+                background: rgb(0 0 0 / 88%);
+            }
+
+            .content {
+                display: flex;
+                margin: 30px 60px 0 60px;
+
+                img {
+                    margin-right: 60px;
+                }
+                h1 {
+                    font-size: 50px;
+                    margin-bottom: 30px;
+                    .contentRating {
+                        margin-left: 30px;
+                        border: 1px solid $color5;
+                        border-radius: 50%;
+                        width: 50px;
+                        height: 50px;
+                        display: inline-block;
+                    }
+                }
+                .year {
+                    margin-top: 5px;
+                }
+                .actors {
+                    color: $text-in;
+                }
+                .storyline {
+                    margin-top: 15px;
+                    color: $text-in;
+                }
+            }
+        }
     }
 
     .logo {
@@ -127,6 +163,7 @@ body {
                 text-align: center;
                 margin: 5px 25px 10px;
                 position: relative;
+                cursor: pointer;
 
                 &>.title-year {
                     margin-top: 15px;

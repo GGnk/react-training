@@ -70,4 +70,8 @@
     &.save:hover {
         background-color: $color1;
     }
+    &.icon {
+        background: none !important;
+        width: max-content;
+    }
 }
