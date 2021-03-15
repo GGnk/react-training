@@ -14,14 +14,14 @@ const MovieCard: React.FC<Props> = ({ film, setMovieDetails }) => {
     const [deleteModal, setDeleteShowModal] = useState(false);
 
     const modal = showModal && (
-                                <Suspense fallback={<div>Загрузка...</div>}>
+                                <Suspense fallback={<div>Loading...</div>}>
                                     <Modal>
                                         <Form film={film} setShowModal={setShowModal} />
                                     </Modal>
                                 </Suspense>
                             )
     const deleteModalElement = deleteModal && (
-                                <Suspense fallback={<div>Загрузка...</div>}>
+                                <Suspense fallback={<div>Loading...</div>}>
                                     <Modal>
                                         <ModalDelete setShowModal={setDeleteShowModal} />
                                     </Modal>
