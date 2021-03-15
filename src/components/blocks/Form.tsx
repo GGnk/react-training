@@ -23,12 +23,15 @@ const Form: React.FC<Form> = ({ film, setShowModal }) => {
         return <option key={genre} value={genre}>{genre}</option>
     })
 
+    const closeShowModal = () => {
+        setShowModal(false)
+    }
     
     return (
         <div  className="modal">
             <div className="modal-content">
                 <div className="modal-header">
-                    <span className="close" onClick={() => setShowModal(false)}>&times;</span>
+                    <span className="close" onClick={closeShowModal}>&times;</span>
                     <h2>ADD MOVIE</h2>
                 </div>
                 <div className="modal-body">
