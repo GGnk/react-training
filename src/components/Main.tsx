@@ -1,38 +1,74 @@
-import React, { Dispatch, SetStateAction, useState } from "react";
-import { Movie } from "../assets/js/types";
+import { Button } from "antd";
+import React, { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchListMovies, selectListGenres, sortMovies } from "../store/reducers/movies";
+import Loader from "./Loader";
 import MoviesErrorBoundary from "./MoviesErrorBoundary";
 import MoviesList from './MoviesList'
 
-const category = [
-    'All', 'Documentary', 'Comedy', 'Horror', 'Crime'
-]
 
 const filters = [
-    'release date', 'best rating'
+    {
+        key: 'date',
+        value: 'release date'
+    },
+    {
+        key: 'rating',
+        value: 'best rating'
+    }
 ]
 
-type Props = {
-    setMovie: Dispatch<SetStateAction<Movie | null>>;
-}
-
-const Main: React.FC<Props> = ({ setMovie }) => {
+const Main: React.FC = () => {
     const [select, setSelect] = useState('release date')
-    
-    const listCategory = category.map((cat: string) => <li key={cat}>{cat}</li>)
+    const listGenres = useSelector(selectListGenres)
+    const dispatch = useDispatch()
 
-    const listFilters = filters.map((filter: string) => {
-        return <option key={filter} value={filter}>{filter.toUpperCase()}</option>
+    const handlerFilmsForGenres = (genre: string) => dispatch(fetchListMovies({
+        searchBy: 'genres', search: genre
+    }))
+
+    const handlerAllfilms = () => dispatch(fetchListMovies())
+
+    const sort = (value) => dispatch(sortMovies(value))
+
+    const listHtlmElementsGenres = listGenres.map((genre: string) => (
+        <li key={genre}>
+            <Button type='ghost' style={{
+                color: 'white'
+            }} onClick={() => handlerFilmsForGenres(genre)}>
+                {genre}
+            </Button>
+        </li>
+    ))
+
+    const listFilters = filters.map((filter) => {
+        return <option 
+                key={filter.key} 
+                value={filter.value}
+            >
+                {filter.value.toUpperCase()}
+            </option>
     })
     
     const handleSelect = ({ target }) => {
         const { value } = target
         setSelect(value)
+        const filter: any = filters.find((item) => item.value == value)
+        sort(filter.key)
     }
+
     return (
         <main className='main'>
             <div className="category">
                 <ul>
-                    {listCategory}
+                    <li>
+                        <Button type='ghost' style={{
+                            color: 'white'
+                        }} onClick={handlerAllfilms}>
+                            All
+                        </Button>
+                    </li>
+                    {listHtlmElementsGenres}
                 </ul>
                 <div className="filter">
                     <span>SORT BY</span>
@@ -42,7 +78,8 @@ const Main: React.FC<Props> = ({ setMovie }) => {
                 </div>
             </div>
             <MoviesErrorBoundary>
-                <MoviesList setMovie={ setMovie }/>
+                <MoviesList />
+                <Loader />
             </MoviesErrorBoundary>
         </main>
     );

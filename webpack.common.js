@@ -1,9 +1,11 @@
+const webpack = require('webpack')
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const path = require('path');
+const dotenv = require('dotenv')
 
-require('dotenv').config()
-console.log('Mode config = ', process.env.NODE_ENV);
+dotenv.config()
+console.log('Mode config =', process.env.NODE_ENV);
 
 module.exports = {
     entry: './src/index.tsx',
@@ -24,7 +26,7 @@ module.exports = {
           use: ["ts-loader"]
         },
         {
-          test: /\.s[ac]ss$/i,
+          test: /\.(sa|sc|c)ss$/i,
           use: [
             "style-loader",
             "css-loader",
@@ -53,5 +55,8 @@ module.exports = {
           ]
         },
       ),
+      new webpack.DefinePlugin({
+        'process.env': JSON.stringify(dotenv.config().parsed)
+     })
     ]
   };
