@@ -1,57 +1,53 @@
-import React, { useState, Suspense, Dispatch, SetStateAction }  from "react";
-import Modal from "./Modal"
+import React, { useState, useEffect }  from "react";
 import { Movie } from '../../assets/js/types';
-const Form = React.lazy(() => import('./Form'));
-const ModalDelete = React.lazy(() => import('./ModalDelete'));
+import { useDispatch } from "react-redux";
+import { getImage } from "../../assets/js/utils";
+
+import Loader from "./../Loader";
+import { getMovie, openFormForCreateOrUpdateOrDelete } from "../../store/reducers/movies";
 
 type Props = {
-    film: Movie,
-    setMovieDetails: Dispatch<SetStateAction<Movie | null>>;
+    film: Movie
 }
 
-const MovieCard: React.FC<Props> = ({ film, setMovieDetails }) => {
-    const [showModal, setShowModal] = useState(false);
-    const [deleteModal, setDeleteShowModal] = useState(false);
+const MovieCard: React.FC<Props> = ({ film }) => {
+    const [img, setImg] = useState('')
+    const dispatch = useDispatch()
+    
+    useEffect(() => {
+        getImage(film.poster_path)
+            .then((url) => setImg(url))
+            .catch(() => setImg('https://via.placeholder.com/320x450/000000?text=Image+has+not+found'))
+    })
 
-    const modal = showModal && (
-                                <Suspense fallback={<div>Loading...</div>}>
-                                    <Modal>
-                                        <Form film={film} setShowModal={setShowModal} />
-                                    </Modal>
-                                </Suspense>
-                            )
-    const deleteModalElement = deleteModal && (
-                                <Suspense fallback={<div>Loading...</div>}>
-                                    <Modal>
-                                        <ModalDelete setShowModal={setDeleteShowModal} />
-                                    </Modal>
-                                </Suspense>
-                            )
+    const handlerUpdateMovie = (id: number) => dispatch(openFormForCreateOrUpdateOrDelete('update', id))
+    const handlerDeleteMovie = (id: number) => dispatch(openFormForCreateOrUpdateOrDelete('delete', id))
+    
     return (
         <div className='movie-card'>
+            <Loader color='red' type='Watch' area={`movie-id-${film.id}`} width='320'/>
             <div 
                 className="btn edit"
             >
                 &#8942;
                 <ul className="dropdown">
-                    <li onClick={() => setShowModal(true)}>Edit</li>
-                    <li onClick={() => setDeleteShowModal(true)}>Delete</li>
+                    <li onClick={() => handlerUpdateMovie(film.id)}>Edit</li>
+                    <li onClick={() => handlerDeleteMovie(film.id)}>Delete</li>
                 </ul>
             </div>
-            <img 
-                src={film.posterurl} 
-                alt={film.title} 
-                width='320' 
-                height='450' 
-                onClick={() => setMovieDetails(film)}
-            />
+            <div className='poster' onClick={() => dispatch(getMovie(film.id))}>
+                <img 
+                    src={img} 
+                    alt={film.title} 
+                    width='320' 
+                    height='450'
+                />
+            </div>
             <div className='title-year'>
                 <span className='title'>{ film.title }</span>
-                <span className='year'>{ film.year }</span>
+                <span className='year'>{ film.release_date?.match(/[0-9]{4}/) }</span>
             </div>
             <div className='genres'>{ film.genres.join(' & ') }</div>
-            {modal}
-            {deleteModalElement}
         </div>
     );
 }
