@@ -1,22 +1,14 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import Logo from './blocks/Logo';
 import { useDispatch, useSelector } from "react-redux";
 import { selectMovie, setShowHeader } from "../store/reducers/movies";
 import Loader from "./Loader";
-import { getImage } from "../assets/js/utils";
-
+import ImgProcessed from "./blocks/ImgProcessed";
 
 const MovieDetails: React.FC = () => {
     const movie = useSelector(selectMovie)
-    const [img, setImg] = useState('') as any
     const dispatch = useDispatch()
-
-    useEffect(() => {
-        getImage(movie.poster_path)
-            .then((url) => setImg(url))
-            .catch((error) => setImg('https://via.placeholder.com/260x300/000000?text=Image+has+not+found'))
-    })
-
+    
     const handlerShowHeader = () => dispatch(setShowHeader(false))
 
     return (
@@ -32,7 +24,7 @@ const MovieDetails: React.FC = () => {
                             </div>
                         </div>
                         <div className="content">
-                            <img src={img} height='300' />
+                            <ImgProcessed poster={movie.poster_path} height='300' />
                             <div>
                                 <h1>{movie.title} 
                                     { movie.vote_average && <span className='contentRating'>{movie?.vote_average}</span> }

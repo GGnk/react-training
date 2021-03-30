@@ -1,27 +1,20 @@
-import React, { useState, useEffect }  from "react";
+import React from "react";
 import { Movie } from '../../assets/js/types';
 import { useDispatch } from "react-redux";
-import { getImage } from "../../assets/js/utils";
 
 import Loader from "./../Loader";
-import { getMovie, openFormForCreateOrUpdateOrDelete } from "../../store/reducers/movies";
+import { getMovie, openForm } from "../../store/reducers/movies";
+import ImgProcessed from "./ImgProcessed";
 
 type Props = {
     film: Movie
 }
 
 const MovieCard: React.FC<Props> = ({ film }) => {
-    const [img, setImg] = useState('')
     const dispatch = useDispatch()
-    
-    useEffect(() => {
-        getImage(film.poster_path)
-            .then((url) => setImg(url))
-            .catch(() => setImg('https://via.placeholder.com/320x450/000000?text=Image+has+not+found'))
-    })
 
-    const handlerUpdateMovie = (id: number) => dispatch(openFormForCreateOrUpdateOrDelete('update', id))
-    const handlerDeleteMovie = (id: number) => dispatch(openFormForCreateOrUpdateOrDelete('delete', id))
+    const handlerUpdateMovie = (id: number) => dispatch(openForm('update', id))
+    const handlerDeleteMovie = (id: number) => dispatch(openForm('delete', id))
     
     return (
         <div className='movie-card'>
@@ -36,11 +29,11 @@ const MovieCard: React.FC<Props> = ({ film }) => {
                 </ul>
             </div>
             <div className='poster' onClick={() => dispatch(getMovie(film.id))}>
-                <img 
-                    src={img} 
-                    alt={film.title} 
+                <ImgProcessed 
+                    poster={film.poster_path} 
                     width='320' 
-                    height='450'
+                    height='450' 
+                    alt={film.title} 
                 />
             </div>
             <div className='title-year'>

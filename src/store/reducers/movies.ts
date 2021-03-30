@@ -85,11 +85,10 @@ export const selectOpenForm = (state: RootState) => state.movie.isOpenForm
 export const selectEditStatus = (state: RootState) => state.movie.isEdit
 
 export const selectListGenres = (state: RootState) => {
-    const list = []
-    const rs = state.movies.data.map((movie: any) => {
+    const listGenres = state.movies.data.map((movie: any) => {
         return movie.genres
     })
-    return [...new Set(list.concat.apply([], rs))]
+    return [...new Set([].concat(...listGenres))]
 }
 
 export const selectMovies = (state: RootState) => state.movies.data
@@ -141,7 +140,7 @@ export const getMovie = (id:number):AppThunk<void> => async (dispatch) => {
     dispatch(addMovie(response.data))
 }
 
-export const openFormForCreateOrUpdateOrDelete = (action: string='create', id?: number):AppThunk<void> => async (dispatch, getState) => {
+export const openForm = (action: string='create', id?: number):AppThunk<void> => async (dispatch, getState) => {
     dispatch(addMovie({} as Movie))
     switch(action) {
         case 'create': 
@@ -181,7 +180,11 @@ export const createMovie = ():AppThunk<void> => async (dispatch, getState) => {
     dispatch(addMovie({} as Movie))
 }
 export const updateMovie = ():AppThunk<void> => async (dispatch, getState) => {
-    const response = await reqTimeDelayAndTrack(http.put('movies', getState().movie.data, ), 1000, `movie-id-${getState().movie.data.id}`)
+    const response = await reqTimeDelayAndTrack(
+                                    http.put('movies', getState().movie.data), 
+                                    1000,
+                                    `movie-id-${getState().movie.data.id}`
+                                )
     
     if (response.status == 200) {
         dispatch(putMovie(response.data))

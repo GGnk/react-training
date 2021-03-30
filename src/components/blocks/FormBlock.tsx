@@ -21,11 +21,9 @@ const FormBlock: React.FC = () => {
         setMovieByKey({key: 'genres', value: selectedGenres })
     }
 
-    const genresSelect = genres.map((genre) => {
-        return {
-            value: genre
-        }
-    })
+    const genresSelect = genres.map((genre) => ({
+        value: genre
+    }))
 
     const closeShowModal = () => {
         dispatch(setOpenForm(false))
