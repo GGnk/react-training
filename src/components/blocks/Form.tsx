@@ -9,11 +9,11 @@ const Form: React.FC = () => {
     const isEdit = useSelector(selectEditStatus)
     const dispatch = useDispatch()
 
-    const setMovieByKey = (data: { key: string, value: any }) => {
+    const setMovieByKey = (data: { key, value }) => {
         setMovie({...movie, [data.key]: data.value})
     }
     const handleGenres = (event: { target: { options: HTMLOptionsCollection } }) => {
-        let options = [...event.target.options];
+        const options = [...event.target.options];
         const selectedOptions = options.filter(option => option.selected)
                                         .map((item: { value: string }) => item.value)
         

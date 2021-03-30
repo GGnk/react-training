@@ -29,7 +29,7 @@ type Props = {
 }
 
 const Loader:React.FC<Props> = ({
-    area, type, color, height, width,
+    area, type='Circles', color='#555555', height='400', width='400',
 }) => {
     const { promiseInProgress } = usePromiseTracker({area})
 
@@ -38,10 +38,10 @@ const Loader:React.FC<Props> = ({
     const spinner = !promiseInProgress ? null : (
         <div className="spinner">
             <Loading
-                type={type || 'Circles'} 
-                color={color || '#555555'} 
-                height={height || '400'} 
-                width={width || '400'}  
+                type={type} 
+                color={color} 
+                height={height} 
+                width={width}  
             />
         </div>
     )
