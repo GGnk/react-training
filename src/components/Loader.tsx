@@ -35,7 +35,7 @@ const Loader:React.FC<Props> = ({
 
     const load = useSelector(selectShowHeader)
 
-    const spinner = !promiseInProgress ? null : (
+    return promiseInProgress ? (
         <div className="spinner">
             <Loading
                 type={type} 
@@ -44,8 +44,7 @@ const Loader:React.FC<Props> = ({
                 width={width}  
             />
         </div>
-    )
-    return spinner 
+    ) : null 
 }
 
 export default Loader
