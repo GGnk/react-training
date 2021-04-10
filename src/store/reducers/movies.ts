@@ -1,4 +1,4 @@
-import { createSlice, PayloadAction, combineReducers, current } from '@reduxjs/toolkit'
+import { createSlice, PayloadAction, combineReducers } from '@reduxjs/toolkit'
 import Modal from 'antd/lib/modal'
 import { AppThunk, RootState } from '..'
 import http, { reqTimeDelayAndTrack } from '../../assets/js/http'
@@ -24,9 +24,6 @@ const movie = createSlice({
         },
         setEditStatus: (state, action: PayloadAction<boolean>): void => {
             state.isEdit = action.payload
-        },
-        setMovie: (state, action: PayloadAction<Movie>): void => {
-            state.data[action.payload.key] = action.payload.value
         }
     }
 })
@@ -51,7 +48,7 @@ const movies = createSlice({
         putMovie: (state, action): void => {
             const id = action.payload.id
             const index = state.data.findIndex((movie) => movie.id == id)
-            
+
             if(index != -1) {
                 state.data.splice(index, 1, action.payload)
             }
@@ -72,12 +69,12 @@ const movies = createSlice({
                     })
                     break
             }
-            
+
         }
     }
 })
 export const { addMoviesState, addMovies, pushMovie, putMovie, sortMovies  } = movies.actions
-export const { addMovie, setShowHeader, setOpenForm, setEditStatus, setMovie } = movie.actions
+export const { addMovie, setShowHeader, setOpenForm, setEditStatus } = movie.actions
 
 export const selectMovie = (state: RootState) => state.movie.data
 export const selectShowHeader = (state: RootState) => state.movie.isShowHeader
@@ -113,15 +110,15 @@ export default rootReducer
  * @param {[string]} [options.filter]
  * @param {string} [options.offset]
  * @example fetchListMovies()
- * 
+ *
  * @public
  */
-export const fetchListMovies = ({ 
+export const fetchListMovies = ({
     limit='6', sortBy='', sortOrder='', search='', searchBy='', filter=[], offset=''
 }:IFetchListMovies = {}):AppThunk<void> => async (dispatch) => {
     const url = `movies?limit=${limit}&sortBy=${sortBy}&sortOrder=${sortOrder}&search=${search}&searchBy=${searchBy}&filter=${filter.join(',')}&offset=${offset}`
     const response = await reqTimeDelayAndTrack(http.get(url))
-    
+
     dispatch(addMoviesState(response.data))
     dispatch(sortMovies('date'))
 }
@@ -143,7 +140,7 @@ export const getMovie = (id:number):AppThunk<void> => async (dispatch) => {
 export const openForm = (action: string='create', id?: number):AppThunk<void> => async (dispatch, getState) => {
     dispatch(addMovie({} as Movie))
     switch(action) {
-        case 'create': 
+        case 'create':
             dispatch(setEditStatus(false))
             break
         case 'update':
@@ -170,27 +167,27 @@ export const openForm = (action: string='create', id?: number):AppThunk<void> =>
     }
     dispatch(setOpenForm(true))
 }
-export const createMovie = ():AppThunk<void> => async (dispatch, getState) => {
-    const response = await reqTimeDelayAndTrack(http.post('movies', getState().movie.data), 1000)
-    
+export const createMovie = (movie):AppThunk<void> => async (dispatch) => {
+    const response = await reqTimeDelayAndTrack(http.post('movies', movie), 1000)
+
     if (response.status == 201) {
         dispatch(pushMovie(response.data))
     }
     dispatch(setOpenForm(false))
     dispatch(addMovie({} as Movie))
 }
-export const updateMovie = ():AppThunk<void> => async (dispatch, getState) => {
+export const updateMovie = (movie):AppThunk<void> => async (dispatch, getState) => {
+    dispatch(addMovie(movie as Movie))
     const response = await reqTimeDelayAndTrack(
-                                    http.put('movies', getState().movie.data), 
+                                    http.put('movies', getState().movie.data),
                                     1000,
                                     `movie-id-${getState().movie.data.id}`
                                 )
-    
+
     if (response.status == 200) {
         dispatch(putMovie(response.data))
     }
     dispatch(setOpenForm(false))
-    dispatch(addMovie({} as Movie))
 }
 export const deleteMovie = (id: number):AppThunk<void> => async (dispatch, getState) => {
     const url = `movies/${id}`
