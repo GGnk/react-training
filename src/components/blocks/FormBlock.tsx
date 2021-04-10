@@ -1,25 +1,20 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { genres } from '../../assets/js/utils'
-import { addMovie, createMovie, selectEditStatus, selectMovie, setOpenForm, updateMovie } from "../../store/reducers/movies";
+import { createMovie, selectEditStatus, selectMovie, setOpenForm, updateMovie } from "../../store/reducers/movies";
 import { Form, Input, Select, Button } from 'antd'
+import { useFormik } from 'formik';
 
 const FormBlock: React.FC = () => {
-    const [movie, setMovie] = useState(useSelector(selectMovie))
     const isEdit = useSelector(selectEditStatus)
     const dispatch = useDispatch()
-
-    const setMovieByKey = (data: { key: string, value: any }) => {
-        setMovie({...movie, [data.key]: data.value})
-    }
-
-    useEffect(() => {
-        dispatch(addMovie(movie))
-    }, [movie])
-
-    const handleGenres = (selectedGenres: string[]) => {
-        setMovieByKey({key: 'genres', value: selectedGenres })
-    }
+    const formik = useFormik({
+        initialValues: useSelector(selectMovie),
+        onSubmit: movie => {
+            console.log(movie);
+            isEdit ? update(movie) : create(movie)
+        },
+    });
 
     const genresSelect = genres.map((genre) => ({
         value: genre
@@ -28,11 +23,11 @@ const FormBlock: React.FC = () => {
     const closeShowModal = () => {
         dispatch(setOpenForm(false))
     }
-    const create = () => {
-        dispatch(createMovie())
+    const create = (movie) => {
+        dispatch(createMovie(movie))
     }
-    const update = () => {
-        dispatch(updateMovie())
+    const update = (movie) => {
+        dispatch(updateMovie(movie))
     }
 
     const rules = {
@@ -40,7 +35,7 @@ const FormBlock: React.FC = () => {
             {
               required: true,
               whitespace: true,
-              message: 'Please input your E-mail!',
+              message: 'Please input your title!',
             }
         ],
         tagline: [
@@ -61,16 +56,22 @@ const FormBlock: React.FC = () => {
         release_date: [
             {
                 required: false,
+                type: 'date'
             }
         ],
         poster_path: [
             {
                 required: true,
+                type: 'url',
+                whitespace: true,
+                message: 'Please insert a link to the picture!',
             }
         ],
         overview: [
             {
                 required: true,
+                whitespace: true,
+                message: 'Please write a short description of the movie!',
             }
         ],
         budget: [
@@ -86,11 +87,14 @@ const FormBlock: React.FC = () => {
         runtime: [
             {
                 required: true,
+                whitespace: true,
+                message: 'Please specify movie duration time!',
             }
         ],
         genres: [
             {
                 required: true,
+                message: 'Please select the movie genres!',
             }
         ],
     }
@@ -99,19 +103,19 @@ const FormBlock: React.FC = () => {
         wrapperCol: { offset: 8, span: 16 },
     }
     return (
-        <Form 
+        <Form
             layout='vertical'
             className="form-modal"
+            onFinish={formik.handleSubmit}
         >
             <Form.Item
                 label='Title'
                 name='title'
                 rules={rules.titleRules}
-                initialValue={movie.title}
+                initialValue={formik.values.title}
             >
                 <Input
-                    value={movie.title}
-                    onChange={({ target }) => setMovieByKey({ key: 'title', value: target.value })}
+                    onChange={formik.handleChange}
                     placeholder="example: La La Land"
                 />
             </Form.Item>
@@ -119,10 +123,10 @@ const FormBlock: React.FC = () => {
                 label='Movie average raiting'
                 name='vote_average'
                 rules={rules.vote_average}
-                initialValue={movie?.vote_average}
+                initialValue={formik.values?.vote_average}
             >
                 <Input
-                    onChange={({ target }) => setMovieByKey({ key: 'vote_average', value: Number(target.value) })}
+                    onChange={({ target }) => formik.setFieldValue("vote_average", Number(target.value))}
                     placeholder="example: 7.9"
                 />
             </Form.Item>
@@ -130,10 +134,10 @@ const FormBlock: React.FC = () => {
                 label='Total count of votes for the movie'
                 name='vote_count'
                 rules={rules.vote_count}
-                initialValue={movie?.vote_count}
+                initialValue={formik.values?.vote_count}
             >
                 <Input
-                    onChange={({ target }) => setMovieByKey({ key: 'vote_count', value: Number(target.value) })}
+                    onChange={({ target }) => formik.setFieldValue("vote_count", Number(target.value))}
                     placeholder="example: 6782"
                 />
             </Form.Item>
@@ -141,32 +145,32 @@ const FormBlock: React.FC = () => {
                 label='Movie tagline'
                 name='tagline'
                 rules={rules.titleRules}
-                initialValue={movie?.tagline}
+                initialValue={formik.values?.tagline}
             >
                 <Input
-                    onChange={({ target }) => setMovieByKey({ key: 'tagline', value: target.value })}
+                    onChange={formik.handleChange}
                     placeholder="example: Here's to the fools who dream."
                 />
             </Form.Item>
             <Form.Item
                 label='Release Date'
                 name='release_date'
-                rules={rules.release_date}
-                initialValue={movie?.release_date}
+                rules={rules.release_date as []}
+                initialValue={formik.values?.release_date}
             >
                 <Input
                     type="date"
-                    onChange={({ target }) => setMovieByKey({ key: 'release_date', value: target.value })}
+                    onChange={formik.handleChange}
                 />
             </Form.Item>
             <Form.Item
                 label='Url to the poster image'
                 name='poster_path'
-                rules={rules.poster_path}
-                initialValue={movie.poster_path}
+                rules={rules.poster_path as []}
+                initialValue={formik.values.poster_path}
             >
                 <Input
-                    onChange={({ target }) => setMovieByKey({ key: 'poster_path', value: target.value })}
+                    onChange={formik.handleChange}
                     placeholder="example: https://image.tmdb.org/t/p/w500/ylXCdC106IKiarftHkcacasaAcb.jpg"
                 />
             </Form.Item>
@@ -174,10 +178,10 @@ const FormBlock: React.FC = () => {
                 label='Short description of the movie'
                 name='overview'
                 rules={rules.overview}
-                initialValue={movie.overview}
+                initialValue={formik.values.overview}
             >
                 <Input.TextArea
-                    onChange={({ target }) => setMovieByKey({ key: 'overview', value: target.value })}
+                    onChange={({ target }) => formik.setFieldValue("overview", target.value)}
                     placeholder="example: Mia, an aspiring actress, serves lattes to movie stars in between auditions and Sebastian, a jazz musician, scrapes by playing cocktail party gigs in dingy bars, but as success mounts they are faced with decisions that begin to fray the fragile fabric of their love affair, and the dreams they worked so hard to maintain in each other threaten to rip them apart."
                 />
             </Form.Item>
@@ -185,43 +189,43 @@ const FormBlock: React.FC = () => {
                 label='Movie production budget'
                 name='budget'
                 rules={rules.budget}
-                initialValue={movie?.budget}
+                initialValue={formik.values?.budget}
             >
                 <Input
-                    onChange={({ target }) => setMovieByKey({ key: 'budget', value: Number(target.value) })}
-                    placeholder="example: 30000000, minimum: 0" 
+                    onChange={({ target }) => formik.setFieldValue("budget", Number(target.value))}
+                    placeholder="example: 30000000, minimum: 0"
                 />
             </Form.Item>
             <Form.Item
                 label='Movie revenue'
                 name='revenue'
                 rules={rules.revenue}
-                initialValue={movie?.revenue}
+                initialValue={formik.values?.revenue}
             >
                 <Input
-                    onChange={({ target }) => setMovieByKey({ key: 'revenue', value: Number(target.value) })}
-                    placeholder="example: 445435700, minimum: 0" 
+                    onChange={({ target }) => formik.setFieldValue("revenue", Number(target.value))}
+                    placeholder="example: 445435700, minimum: 0"
                 />
             </Form.Item>
             <Form.Item
                 label='Movie duration time'
                 name='runtime'
                 rules={rules.runtime}
-                initialValue={movie.runtime}
+                initialValue={formik.values.runtime}
             >
                 <Input
-                    onChange={({ target }) => setMovieByKey({ key: 'runtime', value: Number(target.value) })}
-                    placeholder="example: 128, minimum: 0" 
+                    onChange={({ target }) => formik.setFieldValue("runtime", Number(target.value))}
+                    placeholder="example: 128, minimum: 0"
                 />
             </Form.Item>
             <Form.Item
                 label='List of genres'
                 name='genres'
                 rules={rules.genres}
-                initialValue={movie.genres}
+                initialValue={formik.values.genres}
             >
                 <Select
-                    onChange={handleGenres}
+                    onChange={(genres: string[]) => formik.setFieldValue("genres", genres)}
                     mode="multiple"
                     placeholder="Select genres"
                     options={genresSelect}
@@ -231,7 +235,7 @@ const FormBlock: React.FC = () => {
                 <Button type="text" htmlType="button" onClick={closeShowModal}>
                     Close
                 </Button>
-                <Button type="primary" htmlType="button" onClick={() => isEdit ? update() : create()}>
+                <Button type="primary" htmlType="submit">
                     {isEdit ? 'Save' : 'Add'}
                 </Button>
             </Form.Item>

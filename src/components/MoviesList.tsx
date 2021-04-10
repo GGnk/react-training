@@ -1,9 +1,8 @@
 import React, { Suspense } from "react";
 import { useDispatch, useSelector } from 'react-redux'
-import { MoviesList } from '../assets/js/types'
 
-import {selectEditStatus, 
-        selectOpenForm, 
+import {selectEditStatus,
+        selectOpenForm,
         setOpenForm} from "../store/reducers/movies"
 import MovieCards from "./MovieCards";
 
@@ -14,7 +13,7 @@ const MoviesList: React.FC = () => {
     const isOpenForm = useSelector(selectOpenForm)
     const isEdit = useSelector(selectEditStatus)
     const dispatch = useDispatch()
-    
+
     const closeFormModal = () => {
         dispatch(setOpenForm(false))
     }
@@ -30,7 +29,7 @@ const MoviesList: React.FC = () => {
                     onCancel={closeFormModal}
                     footer={null}
                     destroyOnClose
-                    
+
                 >
                     <FormBlock />
                 </Modal>
