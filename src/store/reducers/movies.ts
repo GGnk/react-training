@@ -76,16 +76,18 @@ const movies = createSlice({
 export const { addMoviesState, addMovies, pushMovie, putMovie, sortMovies  } = movies.actions
 export const { addMovie, setShowHeader, setOpenForm, setEditStatus } = movie.actions
 
+export const selectNotEmptyListMovies = (state: RootState) => state.movies.data.length > 0
+
 export const selectMovie = (state: RootState) => state.movie.data
 export const selectShowHeader = (state: RootState) => state.movie.isShowHeader
 export const selectOpenForm = (state: RootState) => state.movie.isOpenForm
 export const selectEditStatus = (state: RootState) => state.movie.isEdit
 
 export const selectListGenres = (state: RootState) => {
-    const listGenres = state.movies.data.map((movie: any) => {
+    const listGenres = state.movies.data.slice(0,2).map((movie: any) => {
         return movie.genres
     })
-    return [...new Set([].concat(...listGenres))]
+    return [...new Set(['Action', 'Fantasy', 'Romance'].concat(...listGenres))]
 }
 
 export const selectMovies = (state: RootState) => state.movies.data
@@ -114,7 +116,7 @@ export default rootReducer
  * @public
  */
 export const fetchListMovies = ({
-    limit='6', sortBy='', sortOrder='', search='', searchBy='', filter=[], offset=''
+    limit='6', sortBy='', sortOrder='', search='', searchBy='title', filter=[], offset=''
 }:IFetchListMovies = {}):AppThunk<void> => async (dispatch) => {
     const url = `movies?limit=${limit}&sortBy=${sortBy}&sortOrder=${sortOrder}&search=${search}&searchBy=${searchBy}&filter=${filter.join(',')}&offset=${offset}`
     const response = await reqTimeDelayAndTrack(http.get(url))

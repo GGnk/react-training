@@ -12,7 +12,7 @@ export interface Movie {
     runtime: number
     genres: string[]
     [key: string]: any
-    
+
 }
 
 export type MoviesList = Movie[]
@@ -23,7 +23,7 @@ export interface IFetchListMovies {
     sortBy?: string
     sortOrder?: 'desc' | 'asc' | ''
     search?: string
-    searchBy?: 'title' | 'genres' | ''
+    searchBy?: 'title' | 'genres'
     filter?: string[]
     offset?: string
 }

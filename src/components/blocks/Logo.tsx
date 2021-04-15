@@ -1,8 +1,11 @@
 import React from "react";
+import { NavLink } from "react-router-dom";
 
 const Logo: React.FC = () => {
     return (
-        <div className="logo">netflix<span>roulette</span></div>
+        <NavLink to='/'>
+            <div className="logo">netflix<span>roulette</span></div>
+        </NavLink>
     );
 }
 

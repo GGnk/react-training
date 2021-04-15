@@ -1,7 +1,9 @@
+import { useLocation } from "react-router-dom";
+
 export const genres = [
-    "Action", "Comedy", "Crime", 
-    "Adventure", "Drama", "Fantasy", 
-    "Horror", "Romance", "Thriller", 
+    "Action", "Comedy", "Crime",
+    "Adventure", "Drama", "Fantasy",
+    "Horror", "Romance", "Thriller",
     "Documentary", "Mystery"]
 
 export const getImage = (url: string):Promise<string> => {
@@ -16,3 +18,7 @@ export const getImage = (url: string):Promise<string> => {
         img.src = url;
     });
 };
+
+export function useQuery() {
+    return new URLSearchParams(useLocation().search);
+}
