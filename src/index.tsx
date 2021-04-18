@@ -12,8 +12,6 @@ import { BrowserRouter as Router} from "react-router-dom";
 
 interceptors()
 
-// store.dispatch(fetchListMovies())
-
 render(
     <Provider store={store}>
         <Router>

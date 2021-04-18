@@ -59,7 +59,7 @@ const Main: React.FC = () => {
         if(filter) sort(filter.key)
     }
 
-    let query = useQuery();
+    const query = useQuery();
 
     useEffect(() => {
         if(query.has('query')) {

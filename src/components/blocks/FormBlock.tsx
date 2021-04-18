@@ -11,7 +11,6 @@ const FormBlock: React.FC = () => {
     const formik = useFormik({
         initialValues: useSelector(selectMovie),
         onSubmit: movie => {
-            console.log(movie);
             isEdit ? update(movie) : create(movie)
         },
     });

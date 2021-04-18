@@ -12,9 +12,9 @@ const Search: React.FC = () => {
         initialValues: {
             search: ''
         },
-        onSubmit: data => {
-            history.push(`search?query=${data.search}`)
-            dispatch(fetchListMovies({search: data.search }))
+        onSubmit: ({ search }) => {
+            history.push(`search?query=${search}`)
+            dispatch(fetchListMovies({ search }))
         },
     });
 
