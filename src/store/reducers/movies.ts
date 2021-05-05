@@ -76,7 +76,8 @@ const movies = createSlice({
 export const { addMoviesState, addMovies, pushMovie, putMovie, sortMovies  } = movies.actions
 export const { addMovie, setShowHeader, setOpenForm, setEditStatus } = movie.actions
 
-export const selectNotEmptyListMovies = (state: RootState) => state.movies.data.length > 0
+export const isNotEmptyListMovies = (state: RootState) => !!selectMovies(state).length
+export const selectMovies = (state: RootState) => state.movies.data
 
 export const selectMovie = (state: RootState) => state.movie.data
 export const selectShowHeader = (state: RootState) => state.movie.isShowHeader
@@ -84,13 +85,11 @@ export const selectOpenForm = (state: RootState) => state.movie.isOpenForm
 export const selectEditStatus = (state: RootState) => state.movie.isEdit
 
 export const selectListGenres = (state: RootState) => {
-    const listGenres = state.movies.data.slice(0,2).map((movie: any) => {
+    const listGenres = selectMovies(state).slice(0,2).map((movie: any) => {
         return movie.genres
     })
     return [...new Set(['Action', 'Fantasy', 'Romance'].concat(...listGenres))]
 }
-
-export const selectMovies = (state: RootState) => state.movies.data
 
 const rootReducer = combineReducers({
     movies: movies.reducer,

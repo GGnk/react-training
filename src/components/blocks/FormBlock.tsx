@@ -122,7 +122,7 @@ const FormBlock: React.FC = () => {
                 label='Movie average raiting'
                 name='vote_average'
                 rules={rules.vote_average}
-                initialValue={formik.values?.vote_average}
+                initialValue={formik.values.vote_average}
             >
                 <Input
                     onChange={({ target }) => formik.setFieldValue("vote_average", Number(target.value))}
@@ -133,7 +133,7 @@ const FormBlock: React.FC = () => {
                 label='Total count of votes for the movie'
                 name='vote_count'
                 rules={rules.vote_count}
-                initialValue={formik.values?.vote_count}
+                initialValue={formik.values.vote_count}
             >
                 <Input
                     onChange={({ target }) => formik.setFieldValue("vote_count", Number(target.value))}
@@ -144,7 +144,7 @@ const FormBlock: React.FC = () => {
                 label='Movie tagline'
                 name='tagline'
                 rules={rules.titleRules}
-                initialValue={formik.values?.tagline}
+                initialValue={formik.values.tagline}
             >
                 <Input
                     onChange={formik.handleChange}
@@ -155,7 +155,7 @@ const FormBlock: React.FC = () => {
                 label='Release Date'
                 name='release_date'
                 rules={rules.release_date as []}
-                initialValue={formik.values?.release_date}
+                initialValue={formik.values.release_date}
             >
                 <Input
                     type="date"
@@ -188,7 +188,7 @@ const FormBlock: React.FC = () => {
                 label='Movie production budget'
                 name='budget'
                 rules={rules.budget}
-                initialValue={formik.values?.budget}
+                initialValue={formik.values.budget}
             >
                 <Input
                     onChange={({ target }) => formik.setFieldValue("budget", Number(target.value))}
@@ -199,7 +199,7 @@ const FormBlock: React.FC = () => {
                 label='Movie revenue'
                 name='revenue'
                 rules={rules.revenue}
-                initialValue={formik.values?.revenue}
+                initialValue={formik.values.revenue}
             >
                 <Input
                     onChange={({ target }) => formik.setFieldValue("revenue", Number(target.value))}

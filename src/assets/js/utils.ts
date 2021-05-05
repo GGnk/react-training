@@ -19,6 +19,4 @@ export const getImage = (url: string):Promise<string> => {
     });
 };
 
-export function useQuery() {
-    return new URLSearchParams(useLocation().search);
-}
+export const useQuery = () => new URLSearchParams(useLocation().search);

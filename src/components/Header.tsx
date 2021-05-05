@@ -1,7 +1,7 @@
 import React from "react";
 import {Route, Switch} from "react-router-dom";
 import MovieDetails from "./MovieDetails";
-import HeadeComponent from "./HeaderComponent";
+import HeaderComponent from "./HeaderComponent";
 
 const Header: React.FC = () => {
     return (
@@ -11,7 +11,7 @@ const Header: React.FC = () => {
                     <MovieDetails />
                 </Route>
                 <Route exact path={['/', '/search']}>
-                    <HeadeComponent />
+                    <HeaderComponent />
                 </Route>
             </Switch>
         </header>
