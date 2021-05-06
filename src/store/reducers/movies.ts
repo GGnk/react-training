@@ -85,7 +85,7 @@ export const selectOpenForm = (state: RootState) => state.movie.isOpenForm
 export const selectEditStatus = (state: RootState) => state.movie.isEdit
 
 export const selectListGenres = (state: RootState) => {
-    const listGenres = selectMovies(state).slice(0,2).map((movie: any) => {
+    const listGenres = selectMovies(state).slice(0,2).map((movie: Movie) => {
         return movie.genres
     })
     return [...new Set(['Action', 'Fantasy', 'Romance'].concat(...listGenres))]
