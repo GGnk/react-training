@@ -3,7 +3,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {
     fetchListMovies,
     selectEditStatus,
-    selectNotEmptyListMovies,
+    isNotEmptyListMovies,
     selectOpenForm,
     setOpenForm,
     sortMovies
@@ -33,7 +33,7 @@ const Main: React.FC = () => {
     const [select, setSelect] = useState(filters[0].value)
     const isOpenForm = useSelector(selectOpenForm)
     const isEdit = useSelector(selectEditStatus)
-    const isNotEmptyListMovies = useSelector(selectNotEmptyListMovies)
+    const isNotEmptyList = useSelector(isNotEmptyListMovies)
 
     const dispatch = useDispatch()
 
@@ -67,7 +67,7 @@ const Main: React.FC = () => {
         }
     }, [])
 
-    const listMovies = isNotEmptyListMovies ? <MoviesList /> : <EmptyBlock />
+    const listMovies = isNotEmptyList ? <MoviesList /> : <EmptyBlock />
     return (
         <main className='main'>
             <div className="category">
