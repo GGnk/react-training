@@ -4,18 +4,15 @@ import { useDispatch, useSelector } from "react-redux";
 import {getMovie, selectMovie, setShowHeader} from "../store/reducers/movies";
 import Loader from "./Loader";
 import ImgProcessed from "./blocks/ImgProcessed";
-import { useParams } from "react-router-dom";
+import {useRouter} from "next/router";
 
-type iPropsRouter = {
-    id: string
-}
 const MovieDetails: React.FC = () => {
     const dispatch = useDispatch()
-    const { id } = useParams<iPropsRouter>()
+    const { query } = useRouter()
 
     useEffect(() => {
-        dispatch(getMovie(Number(id)))
-    }, [id])
+        dispatch(getMovie(Number(query.id)))
+    }, [query.id])
 
     const movie = useSelector(selectMovie)
 

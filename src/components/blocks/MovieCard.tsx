@@ -5,7 +5,7 @@ import { useDispatch } from "react-redux";
 import Loader from "./../Loader";
 import { openForm } from "../../store/reducers/movies";
 import ImgProcessed from "./ImgProcessed";
-import {NavLink} from "react-router-dom";
+import Link from 'next/link'
 
 type Props = {
     film: Movie
@@ -29,7 +29,7 @@ const MovieCard: React.FC<Props> = ({ film }) => {
                     <li onClick={() => handlerDeleteMovie(film.id)}>Delete</li>
                 </ul>
             </div>
-            <NavLink to={`/film/${film.id}`}>
+            <Link href={`/film/${film.id}`}>
                 <div className='poster'>
                     <ImgProcessed
                         poster={film.poster_path}
@@ -38,7 +38,7 @@ const MovieCard: React.FC<Props> = ({ film }) => {
                         alt={film.title}
                     />
                 </div>
-            </NavLink>
+            </Link>
             <div className='title-year'>
                 <span className='title'>{ film.title }</span>
                 <span className='year'>{ film.release_date?.match(/[0-9]{4}/) }</span>

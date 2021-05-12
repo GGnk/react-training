@@ -1,19 +1,9 @@
 import React from "react";
-import {Route, Switch} from "react-router-dom";
-import MovieDetails from "./MovieDetails";
-import HeaderComponent from "./HeaderComponent";
 
-const Header: React.FC = () => {
+const Header: React.FC = ({children}) => {
     return (
         <header className='header'>
-            <Switch>
-                <Route path='/film/:id'>
-                    <MovieDetails />
-                </Route>
-                <Route exact path={['/', '/search']}>
-                    <HeaderComponent />
-                </Route>
-            </Switch>
+            {children}
         </header>
     );
 }

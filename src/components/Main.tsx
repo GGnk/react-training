@@ -1,4 +1,4 @@
-import React, {Suspense, useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {
     fetchListMovies,
@@ -13,10 +13,13 @@ import Loader from "./Loader";
 import MoviesErrorBoundary from "./MoviesErrorBoundary";
 import MoviesList from './MoviesList'
 import EmptyBlock from "./blocks/EmptyBlock";
-import {useQuery} from "../assets/js/utils";
+import dynamic from "next/dynamic";
 
-const Modal = React.lazy(() => import('antd/lib/modal'))
-const FormBlock = React.lazy(() => import('./blocks/FormBlock'))
+const Modal = dynamic(
+    () => import("antd/lib/modal"),
+    { loading: () => <div>Loading...</div> }
+);
+const FormBlock = dynamic(() => import("./blocks/FormBlock"));
 
 const filters = [
     {
@@ -31,11 +34,14 @@ const filters = [
 
 const Main: React.FC = () => {
     const [select, setSelect] = useState(filters[0].value)
+    const dispatch = useDispatch()
+    useEffect(() => {
+        dispatch(fetchListMovies())
+    }, [dispatch])
+
     const isOpenForm = useSelector(selectOpenForm)
     const isEdit = useSelector(selectEditStatus)
     const isNotEmptyList = useSelector(isNotEmptyListMovies)
-
-    const dispatch = useDispatch()
 
     const closeFormModal = () => {
         dispatch(setOpenForm(false))
@@ -59,14 +65,6 @@ const Main: React.FC = () => {
         if(filter) sort(filter.key)
     }
 
-    const query = useQuery();
-
-    useEffect(() => {
-        if(query.has('query')) {
-            dispatch(fetchListMovies({search: query.get('query') as string }))
-        }
-    }, [])
-
     const listMovies = isNotEmptyList ? <MoviesList /> : <EmptyBlock />
     return (
         <main className='main'>
@@ -83,19 +81,17 @@ const Main: React.FC = () => {
                 {listMovies}
                 <Loader />
             </MoviesErrorBoundary>
-            <Suspense fallback={<div>Loading...</div>}>
-                <Modal
-                    title={isEdit ? 'Edit' : 'Create' }
-                    className='modal'
-                    visible={isOpenForm}
-                    onCancel={closeFormModal}
-                    footer={null}
-                    destroyOnClose
+            <Modal
+                title={isEdit ? 'Edit' : 'Create' }
+                className='modal'
+                visible={isOpenForm}
+                onCancel={closeFormModal}
+                footer={null}
+                destroyOnClose
 
-                >
-                    <FormBlock />
-                </Modal>
-            </Suspense>
+            >
+                <FormBlock />
+            </Modal>
         </main>
     );
 }

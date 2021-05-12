@@ -2,10 +2,10 @@ import React from "react";
 import {useFormik} from "formik";
 import {useDispatch} from "react-redux";
 import {fetchListMovies} from "../../store/reducers/movies";
-import { useHistory } from "react-router-dom";
+import { useRouter } from "next/router";
 
 const Search: React.FC = () => {
-    const history = useHistory()
+    const { push } = useRouter()
     const dispatch = useDispatch()
 
     const formik = useFormik({
@@ -13,7 +13,7 @@ const Search: React.FC = () => {
             search: ''
         },
         onSubmit: ({ search }) => {
-            history.push(`search?query=${search}`)
+            push(`search?query=${search}`)
             dispatch(fetchListMovies({ search }))
         },
     });

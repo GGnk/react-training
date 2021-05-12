@@ -1,5 +1,3 @@
-import { useLocation } from "react-router-dom";
-
 export const genres = [
     "Action", "Comedy", "Crime",
     "Adventure", "Drama", "Fantasy",
@@ -19,4 +17,3 @@ export const getImage = (url: string):Promise<string> => {
     });
 };
 
-export const useQuery = () => new URLSearchParams(useLocation().search);
